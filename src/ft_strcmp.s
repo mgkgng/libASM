@@ -1,6 +1,7 @@
 global _ft_strcmp
 
 _ft_strcmp:
+    enter 0, 0
     xor rcx, rcx
 loop:
     cmp byte [rdi + rcx], 0
@@ -16,4 +17,5 @@ end:
     movzx rax, byte [rdi + rcx]
     movzx rdx, byte [rsi + rcx]
     sub rax, rdx
+    leave
     ret

@@ -1,4 +1,4 @@
-SRCS = src/ft_strlen.s src/ft_strcpy.s src/ft_strcmp.s src/ft_write.s
+SRCS = src/ft_strlen.s src/ft_strcpy.s src/ft_strcmp.s src/ft_write.s src/ft_read.s
 CSRCS = main.c
 
 OBJS_ASM = ${SRCS:.s=.o}

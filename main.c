@@ -6,7 +6,9 @@ int main() {
 	extern size_t	ft_strlen();
 	extern char*	ft_strcpy();
 	extern int		ft_strcmp();
-	extern size_t	ft_write();
+	extern ssize_t	ft_write(int fd, const void *buf, size_t count);
+	extern ssize_t	ft_read(int fildes, void *buf, size_t nbyte);
+
 	// extern	ft_read();
 	// extern	ft_strdup();
 
@@ -37,11 +39,38 @@ int main() {
 	printf("=======================\n");
 	printf("TESTING ft_strcmp\n");
 	printf("=======================\n");
-	char test1[99] = "ssasdasdsss";
-	char test2[1000] = "poadkasda===as=dasd";
+	char *test1 = strdup("zHelloasdasdasdasworld!");
+	char *test2 = strdup("poadkasda===as=dasd");
 
-	printf("ft_strcmp result: %d\n", ft_strcmp(test1, test2));
 	printf("strcmp result: %d\n", strcmp(test1, test2));
+	printf("ft_strcmp result: %d\n", ft_strcmp(test1, test2));
+
+	usleep(DELAY);
+	printf("=======================\n");
+	printf("TESTING ft_write\n");
+	printf("=======================\n");
+
+	printf("write result: %zd\n", write(1, "Oui oui\n", 8));
+	printf("ft_strcmp result: %zd\n", ft_write(1, "Oui oui\n", 8));
+
+	usleep(DELAY);
+	printf("=======================\n");
+	printf("TESTING ft_read\n");
+	printf("=======================\n");
+
+	int fd1 = open("test1", 0666);
+	int fd2 = open("test2", 0666);
+	char buf1[99];
+	char buf2[99];
+
+	printf("read result: %zd\n", read(fd1, &buf1, 8));
+	printf("ft_read result: %zd\n", ft_read(fd2, &buf2, 8));
+
+	printf("read result: %s\n", buf1);
+	printf("ft_read result: %s\n", buf2);
+
+	close(fd1);
+	close(fd2);
 
 	return (0);
 }

@@ -5,3 +5,7 @@ extern _ft_strcpy
 extern _malloc
 
 _ft_strdup:
+    enter 0, 0
+
+    mov r8 
+    call _malloc
