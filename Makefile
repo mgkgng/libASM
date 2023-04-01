@@ -1,4 +1,4 @@
-SRCS = src/ft_strlen.s src/ft_strcpy.s
+SRCS = src/ft_strlen.s src/ft_strcpy.s src/ft_strcmp.s src/ft_write.s
 CSRCS = main.c
 
 OBJS_ASM = ${SRCS:.s=.o}
@@ -33,4 +33,4 @@ clean:
 fclean:	clean
 		rm -rf ${NAME} ${LIB_ASM}
 
-re:		fclean make all
+re:		fclean all

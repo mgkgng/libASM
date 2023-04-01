@@ -2,15 +2,15 @@ section .text
     global _ft_strcpy
 
 _ft_strcpy:
-    xor rax, rax
-    
+    xor rcx, rcx
 loop:
-    cmp byte [rdi + rax], 0
-    je done
-    mov cl, byte [rdi + rax]
-    mov byte [rsi + rax], cl
-    inc rax
+    cmp byte [rsi + rcx], 0
+    je end
+    mov dl, byte [rsi + rcx]
+    mov byte [rdi + rcx], dl
+    inc rcx
     jmp loop
 end:
-    mov byte [rdi + rax], 0
+    mov byte [rdi + rcx], 0
     mov rax, rdi
+    ret

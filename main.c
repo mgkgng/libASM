@@ -3,10 +3,10 @@
 int main() {
 	char *test_str = strdup("Hello world!");
 
-	extern size_t ft_strlen();
-	extern char *ft_strcpy();
-	// extern	ft_strcmp();
-	// extern	ft_write();
+	extern size_t	ft_strlen();
+	extern char*	ft_strcpy();
+	extern int		ft_strcmp();
+	extern size_t	ft_write();
 	// extern	ft_read();
 	// extern	ft_strdup();
 
@@ -30,8 +30,18 @@ int main() {
 	ft_strcpy(ft_dest, test_str);
 	strcpy(dest, test_str);
 
-	printf("ft_strlen result: %s\n", ft_dest);
-	printf("strlen result: %s\n", dest);
+	printf("ft_strcpy result: %s\n", ft_dest);
+	printf("strcpy result: %s\n", dest);
+
+	usleep(DELAY);
+	printf("=======================\n");
+	printf("TESTING ft_strcmp\n");
+	printf("=======================\n");
+	char test1[99] = "ssasdasdsss";
+	char test2[1000] = "poadkasda===as=dasd";
+
+	printf("ft_strcmp result: %d\n", ft_strcmp(test1, test2));
+	printf("strcmp result: %d\n", strcmp(test1, test2));
 
 	return (0);
 }
