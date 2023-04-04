@@ -6,12 +6,11 @@ _ft_write:
     mov rax, 0x2000004
     syscall
     cmp rax, -1
-    jne done
-    jmp error
+    je err
 done:
     leave
     ret
-error:
+err:
     call ___error
     mov rdi, [rax]
     mov rax, -1

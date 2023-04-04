@@ -3,14 +3,12 @@
 int main() {
 	char *test_str = strdup("Hello world!");
 
-	extern size_t	ft_strlen();
-	extern char*	ft_strcpy();
-	extern int		ft_strcmp();
+	extern size_t	ft_strlen(const char *s);
+	extern char*	ft_strcpy(char *dest, const char *src);
+	extern int		ft_strcmp(const char *s1, const char *s2);
 	extern ssize_t	ft_write(int fd, const void *buf, size_t count);
 	extern ssize_t	ft_read(int fildes, void *buf, size_t nbyte);
-
-	// extern	ft_read();
-	// extern	ft_strdup();
+	extern char*	ft_strdup(const char *s);
 
 	printf("LIBASM TEST STARTS\n");
 	
@@ -71,6 +69,16 @@ int main() {
 
 	close(fd1);
 	close(fd2);
+
+	usleep(DELAY);
+	printf("=======================\n");
+	printf("TESTING ft_strdup\n");
+	printf("=======================\n");
+
+	char *ft_str = ft_strdup("boom boom pow");
+	char *str = strdup("boom boom pow");
+	printf("ft_strdup result: %s\n", ft_str);
+	printf("strdup result: %s\n", str);
 
 	return (0);
 }
