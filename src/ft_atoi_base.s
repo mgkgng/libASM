@@ -1,5 +1,7 @@
 global _ft_atoi_base
 
+extern _ft_strlen
+
 _ft_atoi_base:
     enter 0, 0
     mov r12, 0 ; r12 = result
@@ -7,7 +9,15 @@ _ft_atoi_base:
     mov r14, 0 ; r14 = base
     mov r15, 0 ; r15 = base_len
 
+_check_base_size:
+    call _ft_strlen
+    cmp rax, 1
+    jle _end_error
+_check_base_loop:
+; len + duplicate + valid
 
+;_check_base_duplicate:
+;_check_base_valid: (+, -, whitespaces not allowed)
 
 _first_loop:
     call _is_space
@@ -24,6 +34,11 @@ _second_loop:
     cmp rax, 1
     je _digit
     jmp _end
+
+_end_error:
+    mov rax, 0
+    leave
+    ret
 
 _end:
     mov rax, r13
