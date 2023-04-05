@@ -1,7 +1,5 @@
 global _ft_atoi_base
 
-extern _ft_strlen
-
 ; int ft_atoi_base(char *str, char *base)
 _ft_atoi_base:
     enter 0, 0
