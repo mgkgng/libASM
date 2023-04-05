@@ -4,16 +4,51 @@ extern _ft_strlen
 
 _ft_atoi_base:
     enter 0, 0
+    call _check_base
+    cmp rax, 0
+    je _end_error
+
     mov r12, 0 ; r12 = result
     mov r13, 0 ; r13 = sign (0 = positive, 1 = negative)
     mov r14, 0 ; r14 = base
     mov r15, 0 ; r15 = base_len
 
-_check_base_size:
-    call _ft_strlen
+_check_base:
+    enter 0, 0
+    xor rax, rax
+    mov r12, rdi
+_check_base_loop1:
+    cmp byte [rdi], 0
+    je _check_base_end
+    cmp byte [rdi], 0x2b
+    je _check_base_end_false
+    cmp byte [rdi], 0x2d
+    je _check_base_end_false
+    call _is_space
+    cmp rax, 0
+    je _check_base_end_false
+    mov r13, byte [rdi]
+    mov r14, rdi
+    inc r14
+    inc rdi
+_check_base_loop2:
+    cmp byte [r14], 0
+    je _check_base_loop1
+    cmp byte [r14], r13
+    je _check_base_end_false
+    inc r14
+    jmp _check_base_loop2
+_check_base_end:
     cmp rax, 1
-    jle _end_error
-_check_base_loop:
+    jle _check_base_end_false
+    mov rax, 1
+    leave
+    ret
+_check_base_end_false:
+    mov rax, 0
+    leave
+    ret
+
 ; len + duplicate + valid
 
 ;_check_base_duplicate:
@@ -65,7 +100,7 @@ _positive:
 
 _is_space:
     enter 0, 0
-    mov rax, 1
+    mov rax, 0
     cmp byte [rdi], 0x09
     je _is_space_end
     cmp byte [rdi], 0x0a
@@ -78,7 +113,7 @@ _is_space:
     je _is_space_end
     cmp byte [rdi], 0x20
     je _is_space_end
-    mov rax, 0
+    mov rax, 1
 _is_space_end:
     leave
     ret
