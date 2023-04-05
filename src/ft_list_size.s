@@ -6,7 +6,7 @@ _ft_list_size:
     enter 0, 0
     xor rax, rax
 loop:
-    test rdi, rdi
+    cmp rdi, 0
     je end
     inc rax
     mov rdi, [rdi + 8]
