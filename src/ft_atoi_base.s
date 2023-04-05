@@ -2,16 +2,57 @@ global _ft_atoi_base
 
 extern _ft_strlen
 
+; int ft_atoi_base(char *str, char *base)
 _ft_atoi_base:
     enter 0, 0
-    call _check_base
-    cmp rax, 0
-    je _end_error
 
-    mov r12, 0 ; r12 = result
-    mov r13, 0 ; r13 = sign (0 = positive, 1 = negative)
+    call _check_base
+    cmp rax, 1
+    jle _end_error
+    mov r15, rax ; r15 = base_len
+
+    xor r12, r12 ; r12 = result
+    xor r13, r13 ; r13 = sign (0 = positive, 1 = negative)
     mov r14, 0 ; r14 = base
     mov r15, 0 ; r15 = base_len
+
+_first_loop:
+    call _is_space
+    cmp rax, 1
+    je _space
+    cmp byte [rdi], 0x2d
+    je _negative
+    cmp byte [rdi], 0x2b
+    je _positive
+    jmp _second_loop
+
+_second_loop:
+    cmp byte [rdi], 0
+    je _end
+    call _is_in_base
+    cmp rax, r15
+    je _end
+    mov r14, rax
+    mov rax, r12
+    mul r15
+    add rax, r14
+    mov r12, rax
+    inc rdi
+    jmp _second_loop
+_end:
+    mov rax, r13
+    cmp r12, 1
+    je _negative_end
+    jmp _end_end
+_negative_end:
+    neg rax
+_end_end:
+    leave
+    ret
+_end_error:
+    mov rax, 0
+    leave
+    ret
 
 _check_base:
     enter 0, 0
@@ -31,7 +72,7 @@ _check_base_loop1:
     mov r14, rdi
     inc r14
     inc rdi
-_check_base_loop2:
+_check_base_loop2: ; check if there is a duplicate in the base
     cmp byte [r14], 0
     je _check_base_loop1
     cmp byte [r14], r13
@@ -39,50 +80,10 @@ _check_base_loop2:
     inc r14
     jmp _check_base_loop2
 _check_base_end:
-    cmp rax, 1
-    jle _check_base_end_false
-    mov rax, 1
     leave
     ret
 _check_base_end_false:
-    mov rax, 0
-    leave
-    ret
-
-; len + duplicate + valid
-
-;_check_base_duplicate:
-;_check_base_valid: (+, -, whitespaces not allowed)
-
-_first_loop:
-    call _is_space
-    cmp rax, 1
-    je _space
-    cmp byte [rdi], 0x2d
-    je _negative
-    cmp byte [rdi], 0x2b
-    je _positive
-    jmp _second_loop
-
-_second_loop:
-    call _is_digit
-    cmp rax, 1
-    je _digit
-    jmp _end
-
-_end_error:
-    mov rax, 0
-    leave
-    ret
-
-_end:
-    mov rax, r13
-    cmp r12, 1
-    je _negative_end
-    jmp _end_end
-_negative_end:
-    neg rax
-_end_end:
+    xor rax, rax
     leave
     ret
 
@@ -127,5 +128,21 @@ _is_digit:
     jg _is_digit_end
     mov rax, 1
 _is_digit_end:
+    leave
+    ret
+
+_is_in_base:
+    enter 0, 0
+    xor rax, rax
+    mov r12, rdi
+    mov r13, rsi
+_is_in_base_loop:
+    cmp byte [r13 + rax], 0
+    je _is_in_base_end
+    cmp byte [r12], byte [r13 + rax]
+    je _is_in_base_end
+    inc rax
+    jmp _is_in_base_loop
+_is_in_base_end:
     leave
     ret
