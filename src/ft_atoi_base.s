@@ -5,17 +5,12 @@ extern _ft_strlen
 ; int ft_atoi_base(char *str, char *base)
 _ft_atoi_base:
     enter 0, 0
-
     call _check_base
     cmp rax, 1
     jle _end_error
-    mov r15, rax ; r15 = base_len
-
     xor r12, r12 ; r12 = result
     xor r13, r13 ; r13 = sign (0 = positive, 1 = negative)
-    mov r14, 0 ; r14 = base
-    mov r15, 0 ; r15 = base_len
-
+    mov r14, rax ; r14 = base_len, r15 = base_index
 _first_loop:
     call _is_space
     cmp rax, 1
@@ -29,13 +24,13 @@ _first_loop:
 _second_loop:
     cmp byte [rdi], 0
     je _end
-    call _is_in_base
-    cmp rax, r15
+    call _is_in_base ; r14 = base_len, r15 = base_index
+    cmp rax, r14
     je _end
-    mov r14, rax
+    mov r15, rax
     mov rax, r12
-    mul r15
-    add rax, r14
+    mul r14
+    add rax, r15
     mov r12, rax
     inc rdi
     jmp _second_loop
