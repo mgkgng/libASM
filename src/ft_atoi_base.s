@@ -50,25 +50,25 @@ _end_error:
 _check_base:
     enter 0, 0
     xor rax, rax
-    mov r12, rdi
+    mov r12, rdi ; r12 = base
 _check_base_loop1:
     cmp byte [rdi], 0
     je _check_base_end
-    cmp byte [rdi], 0x2b
+    cmp byte [rdi], 0x2b ; check +
     je _check_base_end_false
-    cmp byte [rdi], 0x2d
+    cmp byte [rdi], 0x2d ; check -
     je _check_base_end_false
-    call _is_space
+    call _is_space ; check whitespace
     cmp rax, 0
     je _check_base_end_false
-    mov r13, byte [rdi]
-    mov r14, rdi
-    inc r14
+    mov r13, [rdi] ; current character
+    mov r14, rdi 
+    inc r14 ; next to the current character
     inc rdi
 _check_base_loop2: ; check if there is a duplicate in the base
     cmp byte [r14], 0
     je _check_base_loop1
-    cmp byte [r14], r13
+    cmp [r14], r13
     je _check_base_end_false
     inc r14
     jmp _check_base_loop2
@@ -127,12 +127,13 @@ _is_digit_end:
 _is_in_base:
     enter 0, 0
     xor rax, rax
-    mov r12, rdi
-    mov r13, rsi
+    mov r12, [rdi] ; r12 = current character
+    mov r13, rsi ; r13 = pointer to the base string
 _is_in_base_loop:
-    cmp byte [r13 + rax], 0
+    mov r14, [r13 + rax] ; r14 = current character in the base string
+    cmp r14, 0
     je _is_in_base_end
-    cmp byte [r12], byte [r13 + rax]
+    cmp r12, r14
     je _is_in_base_end
     inc rax
     jmp _is_in_base_loop
