@@ -4,7 +4,7 @@ global _ft_atoi_base
 _ft_atoi_base:
     enter 0, 0
     call _check_base
-    cmp rax, 1
+    cmp rax, 0
     jle _end_error
     xor r12, r12 ; r12 = result
     xor r13, r13 ; r13 = sign (0 = positive, 1 = negative)
@@ -18,7 +18,6 @@ _first_loop:
     cmp byte [rdi], 0x2b
     je _positive
     jmp _second_loop
-
 _second_loop:
     cmp byte [rdi], 0
     je _end
@@ -48,9 +47,8 @@ _end_error:
     ret
 
 _check_base:
-    enter 0, 0
-    xor rax, rax
-    mov r12, rdi ; r12 = base
+    enter 8, 0
+    push rdi
 _check_base_loop1:
     cmp byte [rdi], 0
     je _check_base_end
@@ -59,24 +57,28 @@ _check_base_loop1:
     cmp byte [rdi], 0x2d ; check -
     je _check_base_end_false
     call _is_space ; check whitespace
-    cmp rax, 0
+    cmp rax, 1
     je _check_base_end_false
-    mov r13, [rdi] ; current character
-    mov r14, rdi 
-    inc r14 ; next to the current character
+    ;mov r13, [rdi] ; current character
+    ;mov r14, rdi 
+    ;inc r14 ; next to the current character
     inc rdi
-_check_base_loop2: ; check if there is a duplicate in the base
-    cmp byte [r14], 0
-    je _check_base_loop1
-    cmp [r14], r13
-    je _check_base_end_false
-    inc r14
-    jmp _check_base_loop2
+    jmp _check_base_loop1
+;_check_base_loop2: ; check if there is a duplicate in the base
+    ;cmp byte [r14], 0
+    ;je _check_base_loop1
+    ;cmp [r14], r13
+    ;je _check_base_end_false
+    ;inc r14
+    ;jmp _check_base_loop2
 _check_base_end:
+    mov rax, 1
+    pop rdi
     leave
     ret
 _check_base_end_false:
     xor rax, rax
+    pop rdi
     leave
     ret
 
@@ -94,19 +96,14 @@ _positive:
 
 _is_space:
     enter 0, 0
-    mov rax, 0
-    cmp byte [rdi], 0x09
-    je _is_space_end
-    cmp byte [rdi], 0x0a
-    je _is_space_end
-    cmp byte [rdi], 0x0b
-    je _is_space_end
-    cmp byte [rdi], 0x0c
-    je _is_space_end
-    cmp byte [rdi], 0x0d
-    je _is_space_end
+    mov rax, 1
     cmp byte [rdi], 0x20
     je _is_space_end
+    mov rax, 0
+    cmp byte [rdi], 0x09
+    jl _is_space_end
+    cmp byte [rdi], 0x0d
+    jg _is_space_end
     mov rax, 1
 _is_space_end:
     leave
