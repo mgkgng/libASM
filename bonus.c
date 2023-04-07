@@ -8,7 +8,7 @@ int main() {
     extern void ft_list_sort(t_list **begin_list, int (*cmp)());
     extern void ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void *));
 
-    char *base = "0128";
+    char *base = "0123456789abcdef";
 
-    printf("test %d\n", check_base(base));
+    printf("test %i\n", ft_atoi_base("  +--+-a", base));
 }
