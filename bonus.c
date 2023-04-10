@@ -2,10 +2,10 @@
 
 void print_list(t_list *list) {
     while (list) {
-        printf("loop...!\n");
-        printf("%s\n", list->data);
+        printf("%s--", list->data);
         list = list->next;
     }
+    printf("\n");
 }
 
 int main() {
@@ -25,7 +25,23 @@ int main() {
     print_list(test);
 
     t_list *test2 = NULL;
-    ft_list_push_front(&test2, "test3");
+    ft_list_push_front(&test2, "null_test");
     print_list(test2);
 
+    
+    ft_list_push_front(&test, "test3");
+    ft_list_push_front(&test, "test4");
+    ft_list_push_front(&test, "test5");
+    ft_list_push_front(&test, "test6");
+    ft_list_push_front(&test, "test7");
+    printf("list size: %i\n", ft_list_size(test));
+    print_list(test);
+
+    ft_list_sort(&test, strcmp);
+    print_list(test);
+    ft_list_push_front(&test, "abraham");
+    ft_list_push_front(&test, "zibra");
+    print_list(test);
+    ft_list_sort(&test, strcmp);
+    print_list(test);
 }

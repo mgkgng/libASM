@@ -16,14 +16,14 @@ _second_loop:
     je _increment
     mov rdi, [r12]
     mov rsi, [r13]
-    call [rdx]
+    call rdx
     cmp rax, 0
     jle _next
     mov rbx, [r12] ; rbx = r12->data
     mov rcx, [r13] ; rcx = r13->data
     mov [r12], rcx
     mov [r13], rbx
-    mov r13, [r13 + 8]
+    mov r13, [r13 + 8] ; increment
     jmp _second_loop
 _increment:
     mov r12, [r12 + 8]
