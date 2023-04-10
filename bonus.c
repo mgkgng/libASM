@@ -27,7 +27,6 @@ int main() {
     t_list *test2 = NULL;
     ft_list_push_front(&test2, "null_test");
     print_list(test2);
-
     
     ft_list_push_front(&test, "test3");
     ft_list_push_front(&test, "test4");
@@ -43,5 +42,12 @@ int main() {
     ft_list_push_front(&test, "zibra");
     print_list(test);
     ft_list_sort(&test, strcmp);
+    print_list(test);
+
+    ft_list_remove_if(&test, "abraham", strcmp, free);
+    print_list(test);
+    ft_list_remove_if(&test, "test5", strcmp, free);
+    print_list(test);
+    ft_list_remove_if(&test, "zibra", strcmp, free);
     print_list(test);
 }
