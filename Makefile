@@ -1,47 +1,45 @@
-SRCS = src/ft_strlen.s src/ft_strcpy.s src/ft_strcmp.s src/ft_write.s src/ft_read.s src/ft_strdup.s
-CSRCS = main.c
+NAME		= checker
+ifdef BONUS
+	NAME 	= checker_bonus
+endif
 
-BSRCS = src/ft_atoi_base.s src/ft_list_push_front.s src/ft_list_size.s src/ft_list_sort.s src/ft_list_remove_if.s 
-BCSRCS = bonus.c
+CFLAGS		= -Wno-format -Iincludes
 
-OBJS_ASM = ${SRCS:.s=.o}
-OBJS_C = ${CSRCS:.c=.o}
-OBJS_BASM = ${BSRCS:.s=.o}
-OBJS_BC = ${BCSRCS:.c=.o}
+# Sources & Objects
+SRCS		=	srcs/main.c
+ifdef BONUS
+	SRCS	=	srcs/bonus.c
+endif
 
-ASM_FLAGS = -f macho64
-CFLAGS = -Wall -Wextra -Werror
+OBJS 		:=	$(addsuffix .o, $(basename $(SRCS)))
 
-LIB_ASM = libasm.a
+# Rules
+all:		libasm  $(NAME)
 
-NAME = libasm
+bonus:
+	@make BONUS=1
 
-INCLUDES = -I ./includes
+libasm:
+	@make -C libasm/
 
-all : ${NAME}
+$(NAME): libasm/libasm.a $(OBJS) 
+	$(CC) $(CCFLAGS) $(OBJS) libasm/libasm.a -o $(NAME)
 
-bonus:	fclean lib_bonus ${OBJS_BC}
-		gcc ${CFLAGS} ${INCLUDES} -o ${NAME} ${OBJS_BC} ${LIB_ASM}
-
-%.o:	%.s
-		nasm ${ASM_FLAGS} $< -o $@
-
-%.o:	%.c
-		gcc -o $@ -c ${INCLUDES} $< ${CFLAGS}
-
-lib :	${OBJS_ASM}
-		ar rcs ${LIB_ASM} ${OBJS_ASM}
-
-lib_bonus:	${OBJS_BASM}
-			ar rcs ${LIB_ASM} ${OBJS_BASM}
-
-${NAME}:	lib ${OBJS_C}
-			gcc ${CFLAGS} ${INCLUDES} -o ${NAME} ${OBJS_C} ${LIB_ASM}
+re:	fclean all
 
 clean:
-		rm -rf ${OBJS_ASM} ${OBJS_C} ${OBJS_BASM} ${OBJS_BC}
+ifndef BONUS
+	@make BONUS=1 clean
+	make -C libasm/ clean
+endif
+	rm -f $(OBJS)
 
-fclean:	clean
-		rm -rf ${NAME} ${LIB_ASM}
 
-re:		fclean all
+fclean: clean
+ifndef BONUS
+	@make BONUS=1 fclean
+	make -C libasm/ fclean
+endif
+	rm -f $(NAME)
+
+.PHONY: all clean fclean re libasm

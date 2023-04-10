@@ -56,8 +56,8 @@ int main() {
 	printf("TESTING ft_read\n");
 	printf("=======================\n");
 
-	int fd1 = open("test1", 0666);
-	int fd2 = open("test2", 0666);
+	int fd1 = open("srcs/test1", 0666);
+	int fd2 = open("srcs/test2", 0666);
 	char buf1[99];
 	char buf2[99];
 

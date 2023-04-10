@@ -15,8 +15,20 @@ int main() {
     extern void ft_list_sort(t_list **begin_list, int (*cmp)());
     extern void ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void *));
 
-    //char *base = "0123456789abcdef";
-    //printf("test %i\n", ft_atoi_base("  +--+-a", base));
+	printf("LIBASM BONUS TEST STARTS\n");
+	
+	usleep(DELAY);
+	printf("=======================\n");
+	printf("TESTING ft_atoi_base\n");
+	printf("=======================\n");
+
+    char *base = "0123456789abcdef";
+    printf("test %i\n", ft_atoi_base("  +--+-a", base));
+
+    usleep(DELAY);
+	printf("=======================\n");
+	printf("TESTING ft_list_push_front\n");
+	printf("=======================\n");
 
     t_list *test = malloc(sizeof(t_list));
     test->data = "test";
@@ -27,6 +39,11 @@ int main() {
     t_list *test2 = NULL;
     ft_list_push_front(&test2, "null_test");
     print_list(test2);
+
+    usleep(DELAY);
+	printf("=======================\n");
+	printf("TESTING ft_list_size\n");
+	printf("=======================\n"); 
     
     ft_list_push_front(&test, "test3");
     ft_list_push_front(&test, "test4");
@@ -36,6 +53,11 @@ int main() {
     printf("list size: %i\n", ft_list_size(test));
     print_list(test);
 
+    usleep(DELAY);
+	printf("=======================\n");
+	printf("TESTING ft_list_sort\n");
+	printf("=======================\n");
+
     ft_list_sort(&test, strcmp);
     print_list(test);
     ft_list_push_front(&test, "abraham");
@@ -43,6 +65,11 @@ int main() {
     print_list(test);
     ft_list_sort(&test, strcmp);
     print_list(test);
+
+    usleep(DELAY);
+	printf("=======================\n");
+	printf("TESTING ft_list_remove_if\n");
+	printf("=======================\n");
 
     ft_list_remove_if(&test, "abraham", strcmp, free);
     print_list(test);
