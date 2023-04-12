@@ -13,15 +13,10 @@ _ft_strdup:
     mov rdi, rax
     call _malloc
     cmp rax, 0
-    je err
+    je done
     mov rdi, rax
     mov rsi, r12
     call _ft_strcpy
 done:
     leave
     ret
-err:
-    call ___error
-    mov rdi, [rax]
-    mov rax, 0
-    jmp done
