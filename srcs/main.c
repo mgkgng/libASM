@@ -1,4 +1,4 @@
-#include "libasm.h"
+#include "lib.h"
 
 int main() {
 	char *test_str = strdup("Hello world!");
