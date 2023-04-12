@@ -1,8 +1,6 @@
 #include "lib.h"
 
 int main() {
-	char *test_str = strdup("Hello world!");
-
 	extern size_t	ft_strlen(const char *s);
 	extern char*	ft_strcpy(char *dest, const char *src);
 	extern int		ft_strcmp(const char *s1, const char *s2);
@@ -14,11 +12,23 @@ int main() {
 	
 	usleep(DELAY);
 	printf("=======================\n");
-	printf("TESTING ft_strlen\n");
+	printf("ft_strlen\n");
 	printf("=======================\n");
 
-	printf("ft_strlen result: %zu\n", ft_strlen(test_str));
-	printf("strlen result: %lu\n", strlen(test_str));
+	usleep(DELAY);
+	printf("test1: Try ft_strlen with an empty string\n");
+	if (ft_strlen("") == strlen(""))
+		printf("OK\n");
+	else
+		printf("KO\n");
+
+	usleep(DELAY);
+	printf("test2: Try ft_strlen with a very long string\n");
+	char *test_str = "afadsifojadiopjapdiosfjapsjfopisdjfipasdfjpioajfoajfpoijdsiofjijapsdfjaopisdfjiopasdfjpoidsajfpioasdjfopiajsdopifjasdiopfjadsipofjiopasdfjpiaosfjioasdjfioasdjpoifjasiopdfjpoasdfpjasdipofjiaosdjgiafdgiudfhsguidouibnodsfnovndsaifniasdfiuadshfiouaisuvnicnivouhdiuosafhinsidnniovnianrinaiefiuhinidnviasndfiasdifpiasdfhiufnouodsivchaiosudfhciasndufchsdifucadsfhasudfxuaiosfidnfasdhiouvas fahsdim ifhisiufahsoiufhxusfshvuhsuxfhmaiuhb";
+	if (ft_strlen(test_str) == strlen(test_str))
+		printf("OK\n");
+	else
+		printf("KO\n");
 
 	usleep(DELAY);
 	printf("=======================\n");
