@@ -10,7 +10,8 @@ done:
     leave
     ret
 err:
+    mov rdx, rax
     call ___error
-    mov rdi, [rax]
+    mov [rax], rdx
     mov rax, -1
     jmp done
